@@ -9,3 +9,5 @@ edition = "2018"
 [dependencies]
 structopt = { version = "0.3", default-features = false }
 indicatif = "0.15.0"
+clap = "2.33.3"
+rand = "0.7.3"

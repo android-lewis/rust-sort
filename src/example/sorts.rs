@@ -1,20 +1,33 @@
 use crate::example::helpers;
+use crate::example::sort_types;
 
-pub fn do_hard_work(sort: &String) {
-    println!("{}", sort);
-    let mut array: [i32; 6] = [2, 4, 6, 12, 55, 13];
-    let _high = array.len() - 1;
-    let n = array.len();
-    //quick_sort(&mut array, 0, high);
-    bubble_sort(&mut array, n);
-    println!("{:?}", array);
+pub fn do_hard_work(sort: &sort_types::Sort) {
+    println!("{:?}", sort);
+    let mut array = [1, 0, 9, 8, 100, 345, 5, 6, 7, 4, 3, 2, 1];
+    let n: usize = array.len();
+    //let high = array.len() - 1;
+    match sort {
+        sort_types::Sort::Quick => quick_sort(&mut array, &|x, y| x < y),
+        sort_types::Sort::Bubble => bubble_sort(&mut array, n),
+        sort_types::Sort::Merge => bubble_sort(&mut array, n),
+        sort_types::Sort::Insertion => bubble_sort(&mut array, n),
+        sort_types::Sort::Selection => bubble_sort(&mut array, n),
+        sort_types::Sort::Heap => bubble_sort(&mut array, n),
+        sort_types::Sort::Radix => bubble_sort(&mut array, n),
+        sort_types::Sort::Bucket => bubble_sort(&mut array, n),
+    }
+    println!("After:  {:?}\n", array);
 }
 
-pub fn quick_sort(array: &mut [i32], low: usize, high: usize) {
-    if low < high {
-        let pi = helpers::partition(array, low, high);
-        quick_sort(array, low, (pi - 1) as usize);
-        quick_sort(array, (pi + 1) as usize, high);
+pub fn quick_sort<T, F>(v: &mut [T], f: &F)
+where
+    F: Fn(&T, &T) -> bool,
+{
+    let len = v.len();
+    if len >= 2 {
+        let pivot_index = helpers::partition(v, f);
+        quick_sort(&mut v[0..pivot_index], f);
+        quick_sort(&mut v[pivot_index + 1..len], f);
     }
 }
 
