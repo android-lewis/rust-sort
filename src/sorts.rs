@@ -1,10 +1,13 @@
 use crate::helpers::partition;
+use crate::helpers::swap;
 
 pub fn do_hard_work(sort: &String) {
         println!("{}", sort);
         let mut array:[i32; 6] = [2, 4, 6, 12, 55, 13];
         let high = array.len() - 1;
+        let n = array.len();
         //quick_sort(&mut array, 0, high);
+        bubble_sort(&mut array, n);
         println!("{:?}", array);
     }
 
@@ -20,8 +23,23 @@ pub fn do_hard_work(sort: &String) {
 
     
 
-    pub fn bubble_sort(array: &mut [i32]) {
+    pub fn bubble_sort(array: &mut [i32], n: usize) {
+        let mut swapped = false;
 
+        for i in 0..(n-1) {
+            swapped = false;
+            for j in 0..(n-i-1) {
+                if (array[j] > array[j + 1])  
+                { 
+                    swap(array, j, j+1);
+                    swapped = true;
+                 }
+        }
+
+            if !swapped {
+                break;
+            }
+        }
     }
 /*
     pub fn merge_sort(start: &[i32]) {
